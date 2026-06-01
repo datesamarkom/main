@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>Dejt sa mnom 💖</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link
+  rel="icon"
+  type="image/svg+xml"
+  href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">❤️</text></svg>'
+/>
+<!-- EmailJS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<audio autoplay loop>
+  <source src="missyoubro.mp3" type="audio/mp3">
+</audio>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  min-height:100%;
+}
+
+body{
+  min-height:100vh;
+  min-height:100dvh;
+  overflow-x:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:18px;
+  background:
+  radial-gradient(circle at top left,#ffd6ec,#ffc4e2),
+  linear-gradient(135deg,#ffe1f0,#ffeaf5);
+  position:relative;
+}
+
+/* FLOATING HEARTS */
+
+.hearts{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  z-index:0;
+  pointer-events:none;
+}
+
+.heart{
+  position:absolute;
+  bottom:-40px;
+  animation:floatUp linear infinite;
+  opacity:.5;
+}
+
+@keyframes floatUp{
+  to{
+    transform:translateY(-120vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+/* MAIN */
+
+.container{
+  width:100%;
+  max-width:460px;
+  position:relative;
+  z-index:10;
+}
+
+.card{
+  width:100%;
+  padding:32px 28px;
+  border-radius:32px;
+
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+
+  background:rgba(255,255,255,.23);
+
+  border:1px solid rgba(255,255,255,.3);
+
+  box-shadow:
+  0 10px 35px rgba(255,105,180,.15);
+
+  text-align:center;
+
+  position:absolute;
+  left:0;
+  right:0;
+
+  opacity:0;
+  pointer-events:none;
+
+  transform:
+  translateX(100px)
+  scale(.92);
+
+  transition:
+  all .7s cubic-bezier(.22,1,.36,1);
+}
+
+.card.active{
+  opacity:1;
+  pointer-events:all;
+  transform:
+  translateX(0)
+  scale(1);
+
+  position:relative;
+}
+
+h1{
+  color:#ff4f9e;
+  font-size:clamp(1.5rem,6vw,2rem);
+  margin-bottom:14px;
+  line-height:1.25;
+}
+
+p{
+  color:#84596f;
+  line-height:1.5;
+  font-size:clamp(.92rem,3.6vw,1rem);
+}
+
+/* BUTTONS */
+
+.buttons{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:18px;
+  margin-top:30px;
+  position:relative;
+  min-height:70px;
+}
+
+button{
+  border:none;
+  border-radius:999px;
+  padding:15px 30px;
+  font-size:1rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s;
+  touch-action:manipulation;
+}
+
+.yes-btn{
+  background:
+  linear-gradient(135deg,#ff78bb,#ff5ea9);
+
+  color:white;
+
+  box-shadow:
+  0 10px 25px rgba(255,105,180,.25);
+}
+
+.yes-btn:hover{
+  transform:
+  translateY(-3px)
+  scale(1.05);
+}
+
+.no-btn{
+  position:relative;
+  background:white;
+  color:#ff5ca8;
+  border:2px solid #ffc8e1;
+  transition:transform .18s ease;
+}
+
+.message{
+  min-height:26px;
+  margin-top:15px;
+  color:#ff4f9e;
+  font-weight:600;
+  font-size:.95rem;
+}
+
+/* GRID (food + travel) */
+
+.choice-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  margin-top:22px;
+}
+
+.choice-card{
+  padding:18px 12px;
+  border-radius:22px;
+
+  background:rgba(255,255,255,.3);
+
+  cursor:pointer;
+
+  transition:.2s;
+
+  border:2px solid transparent;
+  font-weight:500;
+  color:#84596f;
+}
+
+.choice-card:hover{
+  transform:translateY(-4px);
+}
+
+.choice-card.selected{
+  border:2px solid #ff66b0;
+  background:rgba(255,255,255,.55);
+  color:#ff4f9e;
+}
+
+.emoji{
+  font-size:2rem;
+  margin-bottom:8px;
+}
+
+/* PICKERS */
+
+.field{
+  margin:18px 0;
+  text-align:left;
+}
+
+.field > label{
+  font-weight:600;
+  color:#ff4f9e;
+  display:block;
+  margin-bottom:8px;
+  font-size:.95rem;
+}
+
+.pretty-input{
+  width:100%;
+  padding:14px 16px;
+  border-radius:16px;
+  border:2px solid #ffc8e1;
+  background:rgba(255,255,255,.6);
+  color:#84596f;
+  font-size:1rem;
+  font-weight:500;
+  outline:none;
+  transition:.2s;
+  -webkit-appearance:none;
+  appearance:none;
+}
+
+.pretty-input:focus{
+  border-color:#ff66b0;
+  background:rgba(255,255,255,.85);
+  box-shadow:0 6px 18px rgba(255,105,180,.18);
+}
+
+input[type="date"].pretty-input,
+input[type="time"].pretty-input{
+  min-height:52px;
+}
+
+::-webkit-calendar-picker-indicator{
+  filter:invert(50%) sepia(60%) saturate(900%) hue-rotate(290deg);
+  cursor:pointer;
+}
+
+/* TRANSITIONS */
+
+.transition-card{
+  color:#ff4f9e;
+  font-size:clamp(1.05rem,4.5vw,1.25rem);
+  font-weight:600;
+  line-height:1.6;
+  padding:20px 0;
+}
+
+/* BOARDING PASS */
+
+.boarding-pass{
+  margin-top:18px;
+  background:#fff;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 20px 45px rgba(255,105,180,.3);
+  text-align:left;
+  color:#5b3b4d;
+  display:flex;
+}
+
+.bp-main{
+  flex:1;
+  min-width:0;
+}
+
+.bp-header{
+  background:linear-gradient(135deg,#ff78bb,#ff5ea9);
+  color:#fff;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.bp-header .airline{
+  font-weight:700;
+  letter-spacing:1px;
+  font-size:.95rem;
+}
+
+.bp-header .plane{
+  font-size:1.2rem;
+}
+
+.bp-content{
+  padding:16px 18px;
+}
+
+.bp-route{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:16px;
+}
+
+.bp-city{ text-align:center; }
+
+.bp-city .code{
+  font-size:1.6rem;
+  font-weight:700;
+  color:#ff4f9e;
+  line-height:1;
+}
+
+.bp-city .name{
+  font-size:.62rem;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  opacity:.65;
+  margin-top:4px;
+}
+
+.bp-line{
+  flex:1;
+  margin:0 10px;
+  position:relative;
+  border-top:2px dashed #ffb8da;
+}
+
+.bp-line .plane{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:#fff;
+  padding:0 6px;
+  color:#ff66b0;
+  font-size:1.1rem;
+}
+
+.bp-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.bp-field .lab{
+  font-size:.58rem;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  opacity:.55;
+}
+
+.bp-field .val{
+  font-weight:600;
+  font-size:.9rem;
+  word-break:break-word;
+}
+
+.bp-stub{
+  width:96px;
+  flex-shrink:0;
+  border-left:2px dashed #ffc8e1;
+  background:#fff7fb;
+  padding:14px 10px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  justify-content:space-between;
+  position:relative;
+}
+
+.bp-stub::before,
+.bp-stub::after{
+  content:"";
+  position:absolute;
+  left:-9px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:
+  radial-gradient(circle at top left,#ffd6ec,#ffc4e2);
+}
+
+.bp-stub::before{ top:-8px; }
+.bp-stub::after{ bottom:-8px; }
+
+.barcode{
+  height:46px;
+  width:100%;
+  background:repeating-linear-gradient(
+    90deg,
+    #5b3b4d 0,
+    #5b3b4d 2px,
+    transparent 2px,
+    transparent 4px,
+    #5b3b4d 4px,
+    #5b3b4d 5px,
+    transparent 5px,
+    transparent 8px
+  );
+  opacity:.85;
+}
+
+.email-note{
+  margin-top:14px;
+  font-size:.85rem;
+  font-weight:600;
+  min-height:20px;
+}
+.email-note.ok{ color:#2bb673; }
+.email-note.err{ color:#ff5ca8; }
+
+/* CALENDAR */
+
+.cal{
+  background:rgba(255,255,255,.55);
+  border:2px solid #ffc8e1;
+  border-radius:18px;
+  padding:14px;
+  user-select:none;
+}
+
+.cal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.cal-title{
+  font-weight:700;
+  color:#ff4f9e;
+  font-size:1rem;
+}
+
+.cal-nav{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:none;
+  background:#ffe1f0;
+  color:#ff4f9e;
+  font-size:1.1rem;
+  font-weight:700;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  transition:.2s;
+}
+
+.cal-nav:hover{ background:#ffc8e1; }
+.cal-nav:disabled{ opacity:.35; cursor:default; }
+
+.cal-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:4px;
+}
+
+.cal-dow{
+  text-align:center;
+  font-size:.66rem;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  color:#c98bab;
+  padding-bottom:4px;
+}
+
+.cal-day{
+  aspect-ratio:1/1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:.9rem;
+  font-weight:600;
+  color:#84596f;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.cal-day:hover{
+  background:#ffe1f0;
+}
+
+.cal-day.empty{
+  cursor:default;
+}
+
+.cal-day.muted{
+  color:#d9b9cb;
+  cursor:default;
+}
+
+.cal-day.muted:hover{ background:transparent; }
+
+.cal-day.today{
+  border:2px solid #ffb3d6;
+}
+
+.cal-day.selected{
+  background:linear-gradient(135deg,#ff78bb,#ff5ea9);
+  color:#fff;
+  box-shadow:0 6px 16px rgba(255,105,180,.35);
+}
+
+/* LOADER */
+
+.loader{
+  width:56px;
+  height:56px;
+  margin:26px auto 18px;
+  border-radius:50%;
+  border:5px solid #ffd6ec;
+  border-top-color:#ff5ea9;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  to{ transform:rotate(360deg); }
+}
+
+.load-step{
+  color:#ff4f9e;
+  font-weight:600;
+  min-height:24px;
+  font-size:1.02rem;
+  transition:opacity .25s;
+}
+
+/* CONFETTI */
+
+canvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:999;
+}
+
+.small{
+  margin-top:15px;
+  font-size:.9rem;
+  opacity:.8;
+}
+
+@media(max-width:430px){
+  .card{ padding:26px 20px; border-radius:26px; }
+  .choice-grid{ gap:10px; }
+  .choice-card{ padding:14px 8px; }
+  .emoji{ font-size:1.7rem; }
+  .bp-stub{ width:78px; }
+  .bp-city .code{ font-size:1.35rem; }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="hearts" id="hearts"></div>
+
+<canvas id="confetti"></canvas>
+
+<div class="container">
+
+  <!-- CARD 1 -->
+
+  <div class="card active" id="card1">
+
+    <h1>Da li hoces da izadjes sa mnom? 💖</h1>
+
+    <p>Jedan od odgovora je znatno bolji nego drugi. 😌</p>
+
+    <div class="buttons" id="btnArea">
+
+      <button class="yes-btn" onclick="nextCard('transition1')">DA 💕</button>
+
+      <button class="no-btn" id="noBtn">NE</button>
+
+    </div>
+
+    <div class="message" id="hoverMessage"></div>
+
+  </div>
+
+  <!-- TRANSITION 1 -->
+
+  <div class="card" id="transition1">
+    <div class="transition-card">
+      Nekim ljudima treba zauvek da odgovore na poruku...<br><br>
+      Ja sam ovo napravio za 15 minuta 😭
+    </div>
+  </div>
+
+  <!-- VIBE -->
+
+  <div class="card" id="card2">
+
+    <h1>U kakvom smo raspolozenju na dejtu? 🍽️</h1>
+    <p>Izaberi ono sto te cini srecnom 💕</p>
+
+    <div class="choice-grid">
+      <div class="choice-card" onclick="selectFood(this,'Wine Night 🍷')">
+        <div class="emoji">🍷</div>Vino
+      </div>
+      <div class="choice-card" onclick="selectFood(this,'Giros Date 🌯')">
+        <div class="emoji">🌯</div>Giros
+      </div>
+      <div class="choice-card" onclick="selectFood(this,'Pasta Night 🍝')">
+        <div class="emoji">🍝</div>Pasta
+      </div>
+      <div class="choice-card" onclick="selectFood(this,'Sushi Date 🍣')">
+        <div class="emoji">🍣</div>Sushi
+      </div>
+    </div>
+
+    <button class="yes-btn" style="margin-top:24px" onclick="nextCard('transition2')">
+      Nastavi 💖
+    </button>
+
+  </div>
+
+  <!-- TRANSITION 2 -->
+
+  <div class="card" id="transition2">
+    <div class="transition-card">
+      Okeejj ovo vec postaje ozbiljno... 😭💕<br><br>
+      A sad ono najvaznije pitanje...
+    </div>
+  </div>
+
+  <!-- TRAVEL -->
+
+  <div class="card" id="cardTravel">
+
+    <h1>Gde putujemo? ✈️</h1>
+    <p>Biraj destinaciju iz snova 💕</p>
+
+    <div class="choice-grid">
+      <div class="choice-card" onclick="selectTravel(this,'Ibiza','IBZ','🏝️')">
+        <div class="emoji">🏝️</div>Ibiza
+      </div>
+      <div class="choice-card" onclick="selectTravel(this,'Pariz','PAR','🗼')">
+        <div class="emoji">🗼</div>Pariz
+      </div>
+      <div class="choice-card" onclick="selectTravel(this,'Maldivi','MLE','🌊')">
+        <div class="emoji">🌊</div>Maldivi
+      </div>
+      <div class="choice-card" onclick="selectTravel(this,'Santorini','JTR','🌅')">
+        <div class="emoji">🌅</div>Santorini
+      </div>
+      <div class="choice-card" onclick="selectTravel(this,'Rim','ROM','🏛️')">
+        <div class="emoji">🏛️</div>Rim
+      </div>
+      <div class="choice-card" onclick="selectTravel(this,'Dubai','DXB','🏙️')">
+        <div class="emoji">🏙️</div>Dubai
+      </div>
+    </div>
+
+    <button class="yes-btn" style="margin-top:24px" onclick="nextCard('transition3')">
+      Nastavi 💖
+    </button>
+
+  </div>
+
+  <!-- TRANSITION 3 -->
+
+  <div class="card" id="transition3">
+    <div class="transition-card">
+      Spakuj kofere... 🧳💕<br><br>
+      Samo nam jos treba datum poletanja!
+    </div>
+  </div>
+
+  <!-- DATE / TIME / EMAIL -->
+
+  <div class="card" id="card3">
+
+    <h1>Kad poletimo? 🕒</h1>
+
+    <div class="field">
+      <label>📅 Izaberi datum dejta</label>
+      <div class="cal" id="calendar"></div>
+    </div>
+
+    <div class="field">
+      <label for="timeInput">⏰ Vreme poletanja</label>
+      <input type="time" id="timeInput" class="pretty-input" value="18:00">
+    </div>
+
+    <div class="field">
+      <label for="emailInput">💌 Tvoj email (da ti posaljem kartu)</label>
+      <input type="email" id="emailInput" class="pretty-input" placeholder="tvojemail@example.com">
+    </div>
+
+    <button class="yes-btn" onclick="finishDate()">
+      Rezervisi let 💕
+    </button>
+
+  </div>
+
+  <!-- LOADING -->
+
+  <div class="card" id="loadingCard">
+
+    <h1>Rezervisem let... ✈️</h1>
+
+    <div class="loader"></div>
+
+    <div class="load-step" id="loadStep">Proveravam dostupne letove... 🔎</div>
+
+  </div>
+
+  <!-- END -->
+
+  <div class="card" id="endCard">
+
+    <h1>ZVANICNO JE? 💖</h1>
+    <p>IDEMOOOO ✈️💕</p>
+
+    <div id="ticketWrap"></div>
+
+    <div class="email-note" id="emailNote"></div>
+
+    <p class="small">
+      Upozorenje: nemoj zaboraviti pasos... i mene 😌💕
+    </p>
+
+  </div>
+
+</div>
+
+<script>
+
+/* ---------- EmailJS init ---------- */
+
+emailjs.init({ publicKey: 'jsCxiMFQqTg8OOYI_' });
+
+const EMAILJS_SERVICE  = 'service_ap9rqqm';
+const EMAILJS_TEMPLATE = 'template_0f87tka';
+
+/* ---------- FLOATING HEARTS ---------- */
+
+function createHeart(){
+  const heart=document.createElement('div');
+  heart.classList.add('heart');
+  heart.innerHTML='💖';
+  heart.style.left=Math.random()*100+'%';
+  heart.style.fontSize=(Math.random()*20+15)+'px';
+  heart.style.animationDuration=(Math.random()*6+5)+'s';
+  document.getElementById('hearts').appendChild(heart);
+  setTimeout(()=>heart.remove(),9000);
+}
+setInterval(createHeart,500);
+
+/* ---------- NO BUTTON (bezi non-stop) ---------- */
+
+const noBtn=document.getElementById('noBtn');
+const hoverMessage=document.getElementById('hoverMessage');
+
+const funnyMessages=[
+  "kazi DA pls 🥺",
+  "Ne je jos uvek u izgradnji 😭",
+  "Netacan odgovor 💔",
+  "Zamalo 😌",
+  "Molim te da budes ozbiljna 😭",
+  "Ovo dugme je samo ukras",
+  "Dobar pokusaj ha ha 😌",
+  "Razmisli ponovo 🥺",
+  "I sama znas da zelis 💖",
+  "Ta opcija je istekla jbg 😭",
+  "Ne dugme je pobeglo, ne mozes ga stici 🏃‍♀️",
+  "PRISTUP ODBIJEN 😌"
+];
+
+let lastMsg=0;
+
+function dodgeNo(){
+  const x=(Math.random()*440)-220;
+  const y=(Math.random()*200)-100;
+
+  noBtn.style.transform=`translate(${x}px,${y}px)`;
+
+  // ne spamuj tekst - menjaj samo svakih 700ms
+  const now=Date.now();
+  if(now-lastMsg>700){
+    lastMsg=now;
+    hoverMessage.textContent=
+      funnyMessages[Math.floor(Math.random()*funnyMessages.length)];
+  }
+}
+
+noBtn.addEventListener('mouseenter',dodgeNo);
+
+function near(clientX,clientY){
+  const r=noBtn.getBoundingClientRect();
+  const cx=r.left+r.width/2;
+  const cy=r.top+r.height/2;
+  return Math.hypot(clientX-cx,clientY-cy)<120;
+}
+
+// uvek bezi od misa cim se priblizi
+window.addEventListener('mousemove',(e)=>{
+  if(!document.getElementById('card1').classList.contains('active')) return;
+  if(near(e.clientX,e.clientY)) dodgeNo();
+});
+
+// TELEFON: bezi od prsta i ne moze da se tapne
+noBtn.addEventListener('touchstart',(e)=>{ e.preventDefault(); dodgeNo(); },{passive:false});
+noBtn.addEventListener('click',(e)=>{ e.preventDefault(); dodgeNo(); });
+
+window.addEventListener('touchmove',(e)=>{
+  if(!document.getElementById('card1').classList.contains('active')) return;
+  const t=e.touches[0];
+  if(t && near(t.clientX,t.clientY)) dodgeNo();
+},{passive:true});
+
+/* ---------- CARD SWITCH ---------- */
+
+function nextCard(id){
+  document.querySelector('.card.active').classList.remove('active');
+  document.getElementById(id).classList.add('active');
+
+  const chain={
+    transition1:'card2',
+    transition2:'cardTravel',
+    transition3:'card3'
+  };
+
+  if(chain[id]){
+    setTimeout(()=>{
+      const cur=document.getElementById(id);
+      if(cur.classList.contains('active')){
+        cur.classList.remove('active');
+        document.getElementById(chain[id]).classList.add('active');
+      }
+    },4500);
+  }
+}
+
+/* ---------- VIBE SELECT ---------- */
+
+let selectedFood='Wine Night 🍷';
+
+function selectFood(el,food){
+  document.querySelectorAll('#card2 .choice-card')
+    .forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedFood=food;
+}
+
+/* ---------- TRAVEL SELECT ---------- */
+
+let destination={name:'Ibiza',code:'IBZ',emoji:'🏝️'};
+
+function selectTravel(el,name,code,emoji){
+  document.querySelectorAll('#cardTravel .choice-card')
+    .forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  destination={name,code,emoji};
+}
+
+/* ---------- CALENDAR ---------- */
+
+let selectedDateISO='';
+
+const calMonthNames=['Januar','Februar','Mart','April','Maj','Jun',
+  'Jul','Avgust','Septembar','Oktobar','Novembar','Decembar'];
+const calDow=['Po','Ut','Sr','Če','Pe','Su','Ne'];
+
+const _today=new Date();
+_today.setHours(0,0,0,0);
+
+let viewY=_today.getFullYear();
+let viewM=_today.getMonth();
+
+function isoOf(y,m,d){
+  return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+
+function renderCalendar(){
+  const cal=document.getElementById('calendar');
+  if(!cal) return;
+
+  // prvi dan u mesecu (Po=0 ... Ne=6)
+  let first=new Date(viewY,viewM,1).getDay();
+  first=(first+6)%7;
+  const daysInMonth=new Date(viewY,viewM+1,0).getDate();
+
+  // da li je prikazani mesec proslost (ne moze nazad ispod tekuceg)
+  const atCurrent=(viewY===_today.getFullYear() && viewM===_today.getMonth());
+
+  let html=`
+    <div class="cal-head">
+      <button class="cal-nav" id="calPrev" ${atCurrent?'disabled':''}>‹</button>
+      <div class="cal-title">${calMonthNames[viewM]} ${viewY}</div>
+      <button class="cal-nav" id="calNext">›</button>
+    </div>
+    <div class="cal-grid">
+  `;
+
+  calDow.forEach(d=> html+=`<div class="cal-dow">${d}</div>`);
+
+  for(let i=0;i<first;i++) html+=`<div class="cal-day empty"></div>`;
+
+  for(let d=1;d<=daysInMonth;d++){
+    const cellDate=new Date(viewY,viewM,d);
+    cellDate.setHours(0,0,0,0);
+    const iso=isoOf(viewY,viewM,d);
+
+    const cls=['cal-day'];
+    if(cellDate < _today) cls.push('muted');
+    if(cellDate.getTime()===_today.getTime()) cls.push('today');
+    if(iso===selectedDateISO) cls.push('selected');
+
+    const clickable=cellDate>=_today;
+    html+=`<div class="${cls.join(' ')}" ${clickable?`data-iso="${iso}"`:''}>${d}</div>`;
+  }
+
+  html+=`</div>`;
+  cal.innerHTML=html;
+
+  document.getElementById('calPrev').onclick=()=>{
+    if(atCurrent) return;
+    viewM--; if(viewM<0){ viewM=11; viewY--; }
+    renderCalendar();
+  };
+  document.getElementById('calNext').onclick=()=>{
+    viewM++; if(viewM>11){ viewM=0; viewY++; }
+    renderCalendar();
+  };
+
+  cal.querySelectorAll('.cal-day[data-iso]').forEach(el=>{
+    el.onclick=()=>{
+      selectedDateISO=el.getAttribute('data-iso');
+      renderCalendar();
+    };
+  });
+}
+
+renderCalendar();
+
+/* ---------- HELPERS ---------- */
+
+function formatDate(iso){
+  if(!iso) return '—';
+  const [y,m,d]=iso.split('-');
+  return `${d}.${m}.${y}`;
+}
+
+function randCode(len){
+  const c='ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
+  let s='';
+  for(let i=0;i<len;i++) s+=c[Math.floor(Math.random()*c.length)];
+  return s;
+}
+
+/* ---------- FINISH -> BOARDING PASS ---------- */
+
+function finishDate(){
+
+  const dateVal=selectedDateISO;
+  const timeVal=document.getElementById('timeInput').value || '18:00';
+  const email=document.getElementById('emailInput').value.trim();
+
+  if(!dateVal){
+    alert('Izaberi datum dejta na kalendaru prvo 💕');
+    return;
+  }
+
+  const flight='LV '+Math.floor(Math.random()*900+100);
+  const seat=(Math.floor(Math.random()*30)+1)+['A','B','C','D'][Math.floor(Math.random()*4)];
+  const gate='G'+(Math.floor(Math.random()*20)+1);
+  const dateText=formatDate(dateVal);
+  const boardingTime=timeVal;
+
+  // --- LOADING sekvenca pa tek onda karta ---
+  document.querySelector('.card.active').classList.remove('active');
+  document.getElementById('loadingCard').classList.add('active');
+
+  const steps=[
+    'Proveravam dostupne letove... 🔎',
+    'Cekiram te na let... 🎫',
+    'Bukiram sediste... 💺',
+    'Trazim najbolji smestaj... 🏨',
+    'Printam tvoju kartu... 🖨️'
+  ];
+  const stepEl=document.getElementById('loadStep');
+  let si=0;
+  stepEl.textContent=steps[0];
+
+  const stepTimer=setInterval(()=>{
+    si++;
+    if(si<steps.length){
+      stepEl.style.opacity=0;
+      setTimeout(()=>{
+        stepEl.textContent=steps[si];
+        stepEl.style.opacity=1;
+      },200);
+    }else{
+      clearInterval(stepTimer);
+      showTicket();
+    }
+  },1100);
+
+  function showTicket(){
+
+  document.getElementById('loadingCard').classList.remove('active');
+  document.getElementById('endCard').classList.add('active');
+
+  document.getElementById('ticketWrap').innerHTML=`
+    <div class="boarding-pass">
+      <div class="bp-main">
+        <div class="bp-header">
+          <span class="airline">LOVE&nbsp;AIRLINES</span>
+          <span class="plane">✈️</span>
+        </div>
+        <div class="bp-content">
+          <div class="bp-route">
+            <div class="bp-city">
+              <div class="code">LJU</div>
+              <div class="name">Ljubav</div>
+            </div>
+            <div class="bp-line"><span class="plane">✈️</span></div>
+            <div class="bp-city">
+              <div class="code">${destination.code}</div>
+              <div class="name">${destination.name}</div>
+            </div>
+          </div>
+          <div class="bp-grid">
+            <div class="bp-field">
+              <div class="lab">Putnik</div>
+              <div class="val">MOJA PRINCEZA 💕</div>
+            </div>
+            <div class="bp-field">
+              <div class="lab">Let</div>
+              <div class="val">${flight}</div>
+            </div>
+            <div class="bp-field">
+              <div class="lab">Datum</div>
+              <div class="val">${dateText}</div>
+            </div>
+            <div class="bp-field">
+              <div class="lab">Poletanje</div>
+              <div class="val">${boardingTime}</div>
+            </div>
+            <div class="bp-field">
+              <div class="lab">Vibe</div>
+              <div class="val">${selectedFood}</div>
+            </div>
+            <div class="bp-field">
+              <div class="lab">Destinacija ${destination.emoji}</div>
+              <div class="val">${destination.name}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bp-stub">
+        <div class="bp-field">
+          <div class="lab">Sediste</div>
+          <div class="val">${seat}</div>
+        </div>
+        <div class="bp-field">
+          <div class="lab">Gate</div>
+          <div class="val">${gate}</div>
+        </div>
+        <div class="barcode"></div>
+      </div>
+    </div>
+  `;
+
+  confettiBoom();
+
+  /* ---- EMAILJS ---- */
+  const note=document.getElementById('emailNote');
+
+  if(email){
+    note.className='email-note';
+    note.textContent='Saljem ti kartu na email... ✈️';
+
+    const params={
+      to_email:email,
+      email:email,
+      passenger:'Moja Princeza',
+      destination:destination.name,
+      destination_code:destination.code,
+      vibe:selectedFood,
+      date:dateText,
+      time:boardingTime,
+      flight:flight,
+      seat:seat,
+      gate:gate,
+      message:`✈️ LOVE AIRLINES Boarding Pass\n`
+        +`Putnik: Moja Princeza 💕\n`
+        +`Ruta: LJU → ${destination.code} (${destination.name})\n`
+        +`Let: ${flight}  |  Sediste: ${seat}  |  Gate: ${gate}\n`
+        +`Datum: ${dateText}  |  Poletanje: ${boardingTime}\n`
+        +`Vibe: ${selectedFood}\n\nVidimo se na dejtu! 💖`
+    };
+
+    emailjs.send(EMAILJS_SERVICE,EMAILJS_TEMPLATE,params)
+      .then(()=>{
+        note.className='email-note ok';
+        note.textContent='Karta poslata na tvoj email! 📩💕';
+      })
+      .catch((err)=>{
+        console.error(err);
+        note.className='email-note err';
+        note.textContent='Email nije prosao, ali dejt i dalje vazi 😌💖';
+      });
+  }else{
+    note.textContent='';
+  }
+
+  } // kraj showTicket
+}
+
+/* ---------- CONFETTI ---------- */
+
+function confettiBoom(){
+  const canvas=document.getElementById('confetti');
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+
+  let pieces=[];
+  for(let i=0;i<180;i++){
+    pieces.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      r:Math.random()*6+2,
+      dx:(Math.random()-.5)*4,
+      dy:Math.random()*3+2
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`hsl(${Math.random()*360},80%,75%)`;
+      ctx.fill();
+      p.x+=p.dx;
+      p.y+=p.dy;
+      if(p.y>canvas.height) p.y=-10;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+</script>
+
+</body>
+</html>
